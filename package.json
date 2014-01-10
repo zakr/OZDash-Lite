@@ -1,0 +1,20 @@
+{
+  "name": "dragonMysql",
+  "version": "0.0.0",
+  "description": "mysql with sockets",
+  "main": "app.js",
+  "dependencies": {
+    "mysql": "~2.0.0",
+    "websocket": "~1.0.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mysql",
+    "websocket"
+  ],
+  "author": "Omer Wazir",
+  "license": "ISC"
+}
