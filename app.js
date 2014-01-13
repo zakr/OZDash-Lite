@@ -1,6 +1,6 @@
 var http = require('http');
 var server = http.createServer(function(request,response){});
-var sqlQuery = require('./mysqlQuery');
+var sqlQuery = require('./server/queries/mysqlQuery');
 var WebSocketServer = require('websocket').server;
 var count = 0;
 var intervalPeriod = 2000; // 2 seconds

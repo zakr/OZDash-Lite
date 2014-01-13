@@ -17,6 +17,19 @@ module.exports = function (grunt) {
 				file: 'dist/app.js'
 			}
 		},
+		less: {
+                development:{
+                    options:{
+                        compress: true,
+                        yuicompress: true,
+                        optimization: 2
+                    },
+                    files:{
+                        "dist/client/assets/stylesheets/styles.css": "src/client/assets/stylesheets/styles.less"
+                    },
+                    report:'gzip'
+                }       
+            },
 		/**
 		 * copy images and other static assets
 		 */
@@ -27,7 +40,7 @@ module.exports = function (grunt) {
 					//copy to dist
 					{
 						expand: true,
-						src:['app.js','router.js','package.json','bower.json','README.md'],
+						src:['app.js','router.js','package.json','README.md'],
 						dest: 'dist'
 					},
 					{
@@ -37,28 +50,6 @@ module.exports = function (grunt) {
 						dest: 'dist'
 					}
 				]
-			}
-		},
-		/**
-		 *  Concat plugin to build assets from assets folder to dist
-		 */
-		concat: {
-			options: {
-				separator: ';'
-			},
-			vendorCss: {
-				src: [
-					'src/client/vendor/stylesheets/normalize.min.css',
-					'src/client/vendor/stylesheets/foundation.min.css',
-					'src/client/vendor/stylesheets/nv.d3.css'
-				],
-				dest: 'dist/client/vendor/stylesheets/vendor.css'
-			},
-			appCss: {
-				src: [
-					'src/client/assets/stylesheets/style.css'
-				],
-				dest: 'dist/client/assets/stylesheets/style.css'
 			}
 		},
     requirejs:{
@@ -76,8 +67,6 @@ module.exports = function (grunt) {
                     requireLib: '../vendor/js/require',
                     angular: '../vendor/js/angular',
                     ngRoute:'../vendor/js/angular-route',
-                    jquery: '../vendor/js/jquery.min',
-                    foundation: '../vendor/js/foundation.min',
                         controllers:'controllers/',
                         partials:'partials/',
                         filters:'filters/',
@@ -138,16 +127,12 @@ grunt.config.requires('watch.server.files');
 	});
 
     //load npm tasks
-    grunt.loadNpmTasks('grunt-bower-task');
-    grunt.renameTask("bower", "bowerInstall");
-    grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     //grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 	// grunt.registerTask('build', ['copy','concat','requirejs']);
-	grunt.registerTask('build', ['copy','concat']);
+	grunt.registerTask('build', ['less','copy']);
 	grunt.registerTask('default',['build','develop', 'watch']);
-	grunt.registerTask('heroku:development', ['build']);
 
 }
