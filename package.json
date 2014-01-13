@@ -18,6 +18,7 @@
     "time-grunt": "~0.1.1",
     "load-grunt-tasks": "~0.2.0",
     "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-less": "~0.8.3",
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-bower": "*",
