@@ -1,6 +1,11 @@
+
+/**
+ * Module dependencies.
+ */
+
 var express = require('express')
 	, http = require('http')
-  	, path = require('path')	
+ 	, path = require('path')	
   	// Need to add socket.io to Express before we use mySql for anything.
 	// , sqlQuery = require('./server/queries/mysqlQuery')
 
