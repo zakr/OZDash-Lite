@@ -129,10 +129,10 @@ grunt.config.requires('watch.server.files');
     //load npm tasks
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    //grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 	// grunt.registerTask('build', ['copy','concat','requirejs']);
-	grunt.registerTask('build', ['less','copy']);
+	grunt.registerTask('build', ['less','copy','requirejs']);
 	grunt.registerTask('default',['build','develop', 'watch']);
 
 }
