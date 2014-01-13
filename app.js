@@ -1,39 +1,37 @@
-var http = require('http');
-var server = http.createServer(function(request,response){});
-var sqlQuery = require('./server/queries/mysqlQuery');
-var WebSocketServer = require('websocket').server;
-var count = 0;
-var intervalPeriod = 2000; // 2 seconds
-var clients = {};
+var express = require('express')
+	, http = require('http')
+  	, path = require('path')	
+  	// Need to add socket.io to Express before we use mySql for anything.
+	// , sqlQuery = require('./server/queries/mysqlQuery')
 
-server.listen(9002,function(){
-	console.log((new Date()) + ' Server is listening on port 9002');
+var app = express();
+
+app.configure(function(){
+  app.set('port', process.env.PORT || 3000);
+  app.set('views', __dirname + '/server/views');
+  app.set('view engine', 'jade');
+  app.use(express.favicon());
+  app.use(express.logger('dev'));
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use('/client',express.static(path.join(__dirname, '/client')));
+});
+
+app.configure('development', function(){
+  app.use(express.errorHandler());
+});
+//All routing after initial request goes through angular. Just need to load the layout template on first request.
+app.get('/', function(req, res) {
+      return res.render('layout', {
+        title: 'OZDash-Lite'
+      });
+  });
+
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log("Express server listening on port " + app.get('port'));
 });
 
 
-wsServer = new WebSocketServer({
-	httpServer : server
-});
-
-wsServer.on('request', function(r){
-	var connection = r.accept('echo-protocol', r.origin);
-	
-	// Specific id for this client & increment count
-	var id = count++;
-	// Store the connection method so we can loop through & contact all clients
-	clients[id] = connection;
-
-  	connection.on('close', function(reasonCode, description){
-		delete clients[id];
-	});
-
-});
-
-// Send a message to each client on a 2 second interval
-var interval = setInterval(function(){
-	sqlQuery.getSomeData(function(response){
-		for(var i in clients){
-			clients[i].sendUTF(response);
-		}
-	});
-}, intervalPeriod);
+// Need to get socket.io and Express working together.
